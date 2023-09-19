@@ -45,7 +45,6 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                     processData: false,  // 禁止对数据进行序列化
                     contentType: false,  // 不设置请求头的 Content-Type
                     success: function (result) {
-                        console.log(result)
                         $(`<div class="image-section" data-id="${result.id}">
                                 <img class="image-show" src="/document/file/download?fileId=${result.id}">
                                 <div class="image-shade"></div>
