@@ -1,4 +1,4 @@
-/** BeUpload.js **/
+/** BeImgUpload.js **/
 layui.define(['jquery', 'layer', 'form'], function (exports) {
     let $ = layui.jquery;
     let layer = layui.layer;
