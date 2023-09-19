@@ -7,7 +7,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         $(option.id).append(`
             <div class="upload-wapper">
                 <i class="upload-icon"></i>
-                <input type="file" name="${option.name}" class="upload-input" accept="image/*">
+                <input type="file" name="${option.name}" class="upload-input" accept="${option.type ? option.type : 'image/*'}">
             </div>`)
 
         appendChange(option);
@@ -62,9 +62,9 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 type: 1,
                 area: "auto", // 宽高
                 title: false, // 不显示标题栏
-                closeBtn: 0,
+                closeBtn: 1,
                 shadeClose: true, // 点击遮罩关闭层
-                content: "<img src='"+img.src+"' style='max-width: 900px;height: auto'/>"
+                content: "<img src='" + img.src + "' style='max-width: 900px;height: auto'/>"
             });
         });
     }
