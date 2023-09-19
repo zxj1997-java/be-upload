@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传示例</title>
+    <!-- 引入 layui.css -->
+    <link href="./layui/css/layui.css" rel="stylesheet">
+    <link href="./common/common.css" rel="stylesheet">
+</head>
+<body>
+<div id="fileupload"></div>
+</body>
+<!-- 引入 layui.js -->
+<script src="./layui/layui.js"></script>
+<script src="./common/common.js"></script>
+<script>
+    layui.use(['BeFileUpload'], function () {
+        let beFileUpload = layui.BeFileUpload;
+
+        beFileUpload.render({
+            id: "#fileupload",
+            name: "img",
+            num: 3,
+            size: 0.5, //10M,
+            type: ".png,.jpg,.jpeg",
+            value:["20230824163537.png","20230824162700.png"]
+        });
+    })
+</script>
+</html>
