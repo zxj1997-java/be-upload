@@ -34,8 +34,29 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             if (option.size && option.size <= file.size / 1024 / 1024) {
                 layer.msg("上传文件大小不得超过" + option.size + "M", {icon: 0});
             } else {
-                option.value = ["https://pic-zxj.oss-cn-shanghai.aliyuncs.com/20230710110151.png"];
-                addImg(option);
+                let that = $(this);
+                let formData = new FormData();
+                formData.append("file", file);
+                debugger
+                // $.ajax({
+                //     url: "http://localhost:8080/sys/file/add",
+                //     data: formData,
+                //     success: function (result) {
+                $(option.id).prepend(`
+                <div class="image-section" data-id="1111">
+                    <img class="image-show" src="https://pic-zxj.oss-cn-shanghai.aliyuncs.com/20230626150654.png">
+                    <div class="image-shade"></div>
+                    <i class="delete-icon"></i>
+                    <i class="zoom-icon"></i>
+                </div>`);
+                showAddBtn(option);
+                //     },
+                //     error: function (xhr, status, error) {
+                //         layer.msg("删除失败", {icon: 2})
+                //     }
+                // });
+
+
             }
         }
     }
@@ -43,13 +64,15 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     //添加预览图片
     let addImg = function (option) {
         if (option.value) {
-            $(option.id).prepend(`
-            <div class="image-section" data-id="1111">
-                <img class="image-show" src="https://pic-zxj.oss-cn-shanghai.aliyuncs.com/20230710110151.png">
-                <div class="image-shade"></div>
-                <i class="delete-icon"></i>
-                <i class="zoom-icon"></i>
-            </div>`);
+            for (let i = 0; i < option.value.length; i++) {
+                $(option.id).append(`
+                <div class="image-section" data-id="1111">
+                    <img class="image-show" src="https://pic-zxj.oss-cn-shanghai.aliyuncs.com/${option.value[i]}">
+                    <div class="image-shade"></div>
+                    <i class="delete-icon"></i>
+                    <i class="zoom-icon"></i>
+                </div>`);
+            }
             showAddBtn(option);
         }
     }
@@ -58,9 +81,18 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     function clickEvent(option) {
         // 在此处执行点击删除图标后的逻辑
         $(option.id).on('click', '.delete-icon', function () {
-            console.log("删除图标");
-            $(this).parent(".image-section").remove();
+            let that = $(this);
+            // $.ajax({
+            //     url: "http://localhost:8080/sys/file/deleteId",
+            //     data: {id: that.data("id")},
+            //     success: function (result) {
+            that.parent(".image-section").remove();
             showAddBtn(option);
+            //     },
+            //     error: function (xhr, status, error) {
+            //         layer.msg("删除失败", {icon: 2})
+            //     }
+            // });
         });
 
         // 在此处执行点击放大图标后的逻辑
