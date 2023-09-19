@@ -1,3 +1,4 @@
+/*图片上传部分 开始*/
 .upload-wapper {
     position: relative;
     width: 100px;
@@ -46,6 +47,7 @@
     display: block;
     cursor: pointer;
 }
+
 .image-section .delete-icon {
     position: absolute;
     width: 30px;
@@ -62,6 +64,7 @@
     display: block;
     cursor: pointer;
 }
+
 .image-section .zoom-icon {
     position: absolute;
     width: 32px;
@@ -71,4 +74,72 @@
     display: none;
     z-index: 999;
     background: url(./img/zoom.png) no-repeat center;
+}
+
+
+/*文件上传部分 开始*/
+.doc-tips-group {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.doc-item-bg {
+    width: 500px;
+    height: 60px;
+    background: #F9F9F9;
+    border-radius: 2px;
+    margin: 10px 0;
+    display: flex;
+    flex-flow: row;
+}
+
+.doc-img {
+    height: 32px;
+    margin: 13px;
+    display: block;
+    float: left;
+}
+
+.doc-info-detail {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px;
+}
+
+.doc-icon-group {
+    width: 200px;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.doc-icon {
+    width: 14px;
+    height: 15px;
+    margin-left: 20px;
+}
+
+.doc-icon-group .doc-icon {
+    display: none;
+}
+
+.doc-icon-group:hover .preview {
+    display: inline-block;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.doc-icon-group:hover .download {
+    display: inline-block;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.doc-icon-group:hover .delete {
+    display: inline-block;
+    cursor: pointer;
+    z-index: 999;
 }
