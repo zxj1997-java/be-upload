@@ -4,18 +4,20 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     let layer = layui.layer;
 
     let render = function (option) {
+        option.value = option.value ? option.value : [];
+        $(option.id).append(`<input type="hidden" class="upload-hidden-input" name="${option.name}"/>`)
         addImg(option);
         $(option.id).append(`
             <div class="upload-wapper">
                 <i class="upload-icon"></i>
-                <input type="file" name="${option.name}" class="upload-input" accept="${option.type ? option.type : 'image/*'}">
-            </div>`)
+                <input type="file" class="upload-input" accept="${option.type ? option.type : 'image/*'}">
+            </div>`);
         appendChange(option);
         clickEvent(option);
     }
 
     let appendChange = function (option) {
-        $("input[name='" + option.name + "']").on('change', function (event) {
+        $(option.id + " input[type=file]").on('change', function (event) {
             // 获取选择的文件列表
             let files = event.target.files;
             let file = files[0];
@@ -29,7 +31,6 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
 
     // 在此处执行对文件的自定义处理逻辑
     let processFile = function (option, file) {
-        console.log(file)
         if (file) {
             if (option.size && option.size <= file.size / 1024 / 1024) {
                 layer.msg("上传文件大小不得超过" + option.size + "M", {icon: 0});
@@ -37,26 +38,24 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 let that = $(this);
                 let formData = new FormData();
                 formData.append("file", file);
-                debugger
                 // $.ajax({
                 //     url: "http://localhost:8080/sys/file/add",
                 //     data: formData,
                 //     success: function (result) {
-                $(option.id).prepend(`
-                <div class="image-section" data-id="1111">
+                $(`<div class="image-section" data-id="1111">
                     <img class="image-show" src="https://pic-zxj.oss-cn-shanghai.aliyuncs.com/20230626150654.png">
                     <div class="image-shade"></div>
                     <i class="delete-icon"></i>
                     <i class="zoom-icon"></i>
-                </div>`);
+                </div>`).insertBefore(option.id + ' .upload-wapper');
+                option.value.push("20230626150654");
+                $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
                 showAddBtn(option);
                 //     },
                 //     error: function (xhr, status, error) {
                 //         layer.msg("删除失败", {icon: 2})
                 //     }
                 // });
-
-
             }
         }
     }
@@ -73,21 +72,29 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                     <i class="zoom-icon"></i>
                 </div>`);
             }
+            $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
             showAddBtn(option);
         }
     }
+
 
     //删除或者放大图片
     function clickEvent(option) {
         // 在此处执行点击删除图标后的逻辑
         $(option.id).on('click', '.delete-icon', function () {
             let that = $(this);
+            let id = that.parent(".image-section").data("id");
             // $.ajax({
             //     url: "http://localhost:8080/sys/file/deleteId",
-            //     data: {id: that.data("id")},
+            //     data: {id: id},
             //     success: function (result) {
             that.parent(".image-section").remove();
             showAddBtn(option);
+            let index = option.value.indexOf(id);
+            if (index !== -1) {
+                option.value.splice(index, 1);
+            }
+            $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
             //     },
             //     error: function (xhr, status, error) {
             //         layer.msg("删除失败", {icon: 2})
