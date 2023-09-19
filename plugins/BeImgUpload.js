@@ -38,24 +38,28 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 let that = $(this);
                 let formData = new FormData();
                 formData.append("file", file);
-                // $.ajax({
-                //     url: "http://localhost:8080/sys/file/add",
-                //     data: formData,
-                //     success: function (result) {
-                $(`<div class="image-section" data-id="1111">
-                    <img class="image-show" src="https://pic-zxj.oss-cn-shanghai.aliyuncs.com/20230626150654.png">
-                    <div class="image-shade"></div>
-                    <i class="delete-icon"></i>
-                    <i class="zoom-icon"></i>
-                </div>`).insertBefore(option.id + ' .upload-wapper');
-                option.value.push("20230626150654");
-                $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
-                showAddBtn(option);
-                //     },
-                //     error: function (xhr, status, error) {
-                //         layer.msg("删除失败", {icon: 2})
-                //     }
-                // });
+                $.ajax({
+                    url: ctx_ + "document/file/upload",
+                    data: formData,
+                    type: "post",
+                    processData: false,  // 禁止对数据进行序列化
+                    contentType: false,  // 不设置请求头的 Content-Type
+                    success: function (result) {
+                        console.log(result)
+                        $(`<div class="image-section" data-id="${result.id}">
+                                <img class="image-show" src="/document/file/download?fileId=${result.id}">
+                                <div class="image-shade"></div>
+                                <i class="delete-icon"></i>
+                                <i class="zoom-icon"></i>
+                            </div>`).insertBefore(option.id + ' .upload-wapper');
+                        option.value.push(result.id);
+                        $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
+                        showAddBtn(option);
+                    },
+                    error: function (xhr, status, error) {
+                        layer.msg("上传失败", {icon: 2})
+                    }
+                });
             }
         }
     }
@@ -84,22 +88,23 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         $(option.id).on('click', '.delete-icon', function () {
             let that = $(this);
             let id = that.parent(".image-section").data("id");
-            // $.ajax({
-            //     url: "http://localhost:8080/sys/file/deleteId",
-            //     data: {id: id},
-            //     success: function (result) {
-            that.parent(".image-section").remove();
-            showAddBtn(option);
-            let index = option.value.indexOf(id);
-            if (index !== -1) {
-                option.value.splice(index, 1);
-            }
-            $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
-            //     },
-            //     error: function (xhr, status, error) {
-            //         layer.msg("删除失败", {icon: 2})
-            //     }
-            // });
+            $.ajax({
+                url: ctx_ + "document/file/delete",
+                type: "post",
+                data: {fileId: id},
+                success: function (result) {
+                    that.parent(".image-section").remove();
+                    showAddBtn(option);
+                    let index = option.value.indexOf(id);
+                    if (index !== -1) {
+                        option.value.splice(index, 1);
+                    }
+                    $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
+                },
+                error: function (xhr, status, error) {
+                    layer.msg("删除失败", {icon: 2})
+                }
+            });
         });
 
         // 在此处执行点击放大图标后的逻辑
@@ -107,7 +112,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             let img = $(this).parent(".image-section").children("img")[0];
             layer.open({
                 type: 1,
-                area: ["auto","auto"], // 宽高
+                area: ["auto", "auto"], // 宽高
                 title: false, // 不显示标题栏
                 closeBtn: 1,
                 shadeClose: true, // 点击遮罩关闭层
