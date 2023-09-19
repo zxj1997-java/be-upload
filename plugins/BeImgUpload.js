@@ -107,11 +107,11 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             let img = $(this).parent(".image-section").children("img")[0];
             layer.open({
                 type: 1,
-                area: "auto", // 宽高
+                area: ["auto","auto"], // 宽高
                 title: false, // 不显示标题栏
                 closeBtn: 1,
                 shadeClose: true, // 点击遮罩关闭层
-                content: "<img src='" + img.src + "' style='max-width: 900px;height: auto'/>"
+                content: "<img src='" + img.src + "' style='width: auto !important;max-height: 600px !important'/>"
             });
         });
     }
