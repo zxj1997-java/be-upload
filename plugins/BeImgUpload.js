@@ -119,7 +119,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         }
     }
 
-    exports('BeUpload', {
+    exports('BeImgUpload', {
         render
     });
 });
