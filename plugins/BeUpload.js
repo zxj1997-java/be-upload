@@ -4,12 +4,12 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     let layer = layui.layer;
 
     let render = function (option) {
+        addImg(option);
         $(option.id).append(`
             <div class="upload-wapper">
                 <i class="upload-icon"></i>
                 <input type="file" name="${option.name}" class="upload-input" accept="${option.type ? option.type : 'image/*'}">
             </div>`)
-
         appendChange(option);
         clickEvent(option);
     }
@@ -34,15 +34,23 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             if (option.size && option.size <= file.size / 1024 / 1024) {
                 layer.msg("上传文件大小不得超过" + option.size + "M", {icon: 0});
             } else {
-                $(option.id).prepend(`
+                option.value = ["https://pic-zxj.oss-cn-shanghai.aliyuncs.com/20230710110151.png"];
+                addImg(option);
+            }
+        }
+    }
+
+    //添加预览图片
+    let addImg = function (option) {
+        if (option.value) {
+            $(option.id).prepend(`
             <div class="image-section" data-id="1111">
                 <img class="image-show" src="https://pic-zxj.oss-cn-shanghai.aliyuncs.com/20230710110151.png">
                 <div class="image-shade"></div>
                 <i class="delete-icon"></i>
                 <i class="zoom-icon"></i>
             </div>`);
-                showAddBtn(option);
-            }
+            showAddBtn(option);
         }
     }
 
