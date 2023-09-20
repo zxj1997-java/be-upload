@@ -78,6 +78,19 @@
 
 
 /*文件上传部分 开始*/
+.doc-uploadBtn{
+    width: 40px;
+    height: 20px;
+    display: inline-block;
+    background-color: #0076d2;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
 .doc-tips-group {
     margin-top: 20px;
     margin-bottom: 10px;
