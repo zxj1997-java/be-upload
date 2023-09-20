@@ -41,7 +41,6 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             if (option.size && option.size <= file.size / 1024 / 1024) {
                 layer.msg("上传文件大小不得超过" + option.size + "M", {icon: 0});
             } else {
-                let that = $(this);
                 let formData = new FormData();
                 formData.append("file", file);
                 $.ajax({
@@ -53,7 +52,8 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                     success: function (result) {
                         $(option.id).append(`
                         <div data-id="${result.id}" class="doc-item-bg">
-                            <img class="doc-img" src="./common/img/icon-image.png">
+                            <img class="doc-img" 
+                            src="${getFileType(file)}">
                             <div class="block doc-info-detail">
                                 <span class="doc-title">${result.fileName}</span> 
                                 <span class="doc-desc">${Math.round(result.fileSize / 1024)}KB</span>
@@ -151,6 +151,36 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             $(".doc-uploadBtn").show();
         }
     }
+
+    function getFileType(file) {
+        // 获取文件的扩展名
+        const extension = file.name.split('.').pop().toLowerCase();
+
+        // 定义常见文件类型和对应的扩展名列表
+        const documentExtensions = ['doc', 'docx', 'odt'];
+        const spreadsheetExtensions = ['xls', 'xlsx', 'ods'];
+        const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        const pptExtensions = ['ppt', 'pptx', 'odp'];
+        const archiveExtensions = ['zip', 'rar', '7z'];
+        const textExtensions = ['txt', 'csv'];
+
+        if (documentExtensions.includes(extension)) {
+            return './common/img/icon-doc.png';
+        } else if (spreadsheetExtensions.includes(extension)) {
+            return './common/img/icon-xsl.png';
+        } else if (imageExtensions.includes(extension)) {
+            return './common/img/icon-image.png';
+        } else if (pptExtensions.includes(extension)) {
+            return './common/img/icon-ppt.png';
+        } else if (archiveExtensions.includes(extension)) {
+            return './common/img/icon-zip.png';
+        } else if (textExtensions.includes(extension)) {
+            return './common/img/icon-txt.png';
+        } else {
+            return './common/img/icon-file.png';
+        }
+    }
+
 
     exports('BeFileUpload', {
         render
