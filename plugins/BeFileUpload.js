@@ -4,18 +4,25 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     let layer = layui.layer;
 
     let render = function (option) {
-        addImg(option);
+        option.value = option.value ? option.value : [];
+        $(option.id).append(`<input type="hidden" class="upload-hidden-input" name="${option.name}"/>`)
         $(option.id).append(`
-            <div class="upload-wapper">
-                <i class="upload-icon"></i>
-                <input type="file" name="${option.name}" class="upload-input" accept="${option.type ? option.type : 'image/*'}">
-            </div>`)
+            <div class="doc-tips-group block">
+            <span class="doc-tips block" style=>附件材料：
+                文件大小≤10M，文件格式支持 doc, docx, xls, xsx
+            </span>
+            <div class="doc-uploadBtn">
+                <i style="font-style: normal;">上传</i>
+                <input class="upload-input" type="file" accept="${option.type ? option.type : 'image/*'}"/>
+            </div>
+        </div>`);
+        addImg(option);
         appendChange(option);
         clickEvent(option);
     }
 
     let appendChange = function (option) {
-        $("input[name='" + option.name + "']").on('change', function (event) {
+        $(option.id + " input[type=file]").on('change', function (event) {
             // 获取选择的文件列表
             let files = event.target.files;
             let file = files[0];
@@ -29,7 +36,6 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
 
     // 在此处执行对文件的自定义处理逻辑
     let processFile = function (option, file) {
-        console.log(file)
         if (file) {
             if (option.size && option.size <= file.size / 1024 / 1024) {
                 layer.msg("上传文件大小不得超过" + option.size + "M", {icon: 0});
@@ -37,26 +43,34 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 let that = $(this);
                 let formData = new FormData();
                 formData.append("file", file);
-                debugger
-                // $.ajax({
-                //     url: "http://localhost:8080/sys/file/add",
-                //     data: formData,
-                //     success: function (result) {
-                $(option.id).prepend(`
-                <div class="image-section" data-id="1111">
-                    <img class="image-show" src="https://pic-zxj.oss-cn-shanghai.aliyuncs.com/20230626150654.png">
-                    <div class="image-shade"></div>
-                    <i class="delete-icon"></i>
-                    <i class="zoom-icon"></i>
-                </div>`);
-                showAddBtn(option);
-                //     },
-                //     error: function (xhr, status, error) {
-                //         layer.msg("删除失败", {icon: 2})
-                //     }
-                // });
-
-
+                $.ajax({
+                    url: ctx_ + "document/file/upload",
+                    data: formData,
+                    type: "post",
+                    processData: false,  // 禁止对数据进行序列化
+                    contentType: false,  // 不设置请求头的 Content-Type
+                    success: function (result) {
+                        $(option.id).append(`
+                        <div data-id="${result.id}" class="doc-item-bg">
+                            <img class="doc-img" src="./common/img/icon-image.png">
+                            <div class="block doc-info-detail">
+                                <span class="doc-title">${result.fileName}</span> 
+                                <span class="doc-desc">${result.fileSize}${result.fileType}</span>
+                            </div>
+                            <div class="block doc-icon-group">
+                                <img class="doc-icon preview" src="./common/img/doc_search.png"> 
+                                <img class="doc-icon download" src="./common/img/doc_download.png">
+                                <img class="doc-icon delete" src="./common/img/doc_delete.png">
+                            </div>
+                        </div>`);
+                        option.value.push(result.id);
+                        $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
+                        showAddBtn(option);
+                    },
+                    error: function (xhr, status, error) {
+                        layer.msg("上传失败", {icon: 2})
+                    }
+                });
             }
         }
     }
@@ -64,54 +78,73 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     //添加预览图片
     let addImg = function (option) {
         if (option.value) {
-            for (let i = 0; i < option.value.length; i++) {
-                $(option.id).append(`
-                <div class="image-section" data-id="1111">
-                    <img class="image-show" src="https://pic-zxj.oss-cn-shanghai.aliyuncs.com/${option.value[i]}">
-                    <div class="image-shade"></div>
-                    <i class="delete-icon"></i>
-                    <i class="zoom-icon"></i>
-                </div>`);
-            }
+            $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
             showAddBtn(option);
+            $.ajax({
+                url: ctx_ + "document/file/upload",
+                data: formData,
+                type: "post",
+                processData: false,  // 禁止对数据进行序列化
+                contentType: false,  // 不设置请求头的 Content-Type
+                success: function (result) {
+                    for (let i = 0; i < result.length; i++) {
+                        $(option.id).append(`
+                        <div data-id="${result[i].id}" class="doc-item-bg">
+                            <img class="doc-img" src="./common/img/icon-image.png">
+                            <div class="block doc-info-detail">
+                                <span class="doc-title">${result[i].fileName}</span> 
+                                <span class="doc-desc">${result[i].fileSize}${result[i].fileType}</span>
+                            </div>
+                            <div class="block doc-icon-group">
+                                <img class="doc-icon preview" src="./common/img/doc_search.png"> 
+                                <img class="doc-icon download" src="./common/img/doc_download.png">
+                                <img class="doc-icon delete" src="./common/img/doc_delete.png">
+                            </div>
+                        </div>`);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    layer.msg("获取失败", {icon: 2})
+                }
+            });
         }
     }
+
 
     //删除或者放大图片
     function clickEvent(option) {
         // 在此处执行点击删除图标后的逻辑
-        $(option.id).on('click', '.delete-icon', function () {
+        $(option.id).on('click', '.delete', function () {
             let that = $(this);
-            // $.ajax({
-            //     url: "http://localhost:8080/sys/file/deleteId",
-            //     data: {id: that.data("id")},
-            //     success: function (result) {
-            that.parent(".image-section").remove();
-            showAddBtn(option);
-            //     },
-            //     error: function (xhr, status, error) {
-            //         layer.msg("删除失败", {icon: 2})
-            //     }
-            // });
+            let id = that.parent(".doc-item-bg").data("id");
+            $.ajax({
+                url: ctx_ + "document/file/delete",
+                type: "post",
+                data: {fileId: id},
+                success: function (result) {
+                    that.parent(".doc-item-bg").remove();
+                    showAddBtn(option);
+                    let index = option.value.indexOf(id);
+                    if (index !== -1) {
+                        option.value.splice(index, 1);
+                    }
+                    $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
+                },
+                error: function (xhr, status, error) {
+                    layer.msg("删除失败", {icon: 2})
+                }
+            });
         });
 
         // 在此处执行点击放大图标后的逻辑
-        $(option.id).on('click', '.zoom-icon', function () {
-            let img = $(this).parent(".image-section").children("img")[0];
-            layer.open({
-                type: 1,
-                area: "auto", // 宽高
-                title: false, // 不显示标题栏
-                closeBtn: 1,
-                shadeClose: true, // 点击遮罩关闭层
-                content: "<img src='" + img.src + "' style='max-width: 900px;height: auto'/>"
-            });
+        $(option.id).on('click', '.preview', function () {
+
         });
     }
 
     //显示或隐藏添加按钮
     function showAddBtn(option) {
-        let count = $(option.id + ' .image-section').length;
+        let count = $(option.id + ' .doc-item-bg').length;
         if (option.num && count >= option.num) {
             $(option.id).children().last().hide();
         } else {
