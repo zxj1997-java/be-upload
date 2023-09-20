@@ -4,12 +4,13 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     let layer = layui.layer;
 
     let render = function (option) {
+        $(option.id).css("display", "grid")
+
         option.value = option.value ? option.value : [];
         $(option.id).append(`<input type="hidden" class="upload-hidden-input" name="${option.name}"/>`)
         $(option.id).append(`
             <div class="doc-tips-group block">
-            <span class="doc-tips block" style=>附件材料：
-                文件大小≤10M，文件格式支持 doc, docx, xls, xsx
+            <span class="doc-tips block" style=>≤10M,支持 doc, docx, xls, xsx
             </span>
             <div class="doc-uploadBtn">
                 <i style="font-style: normal;">上传</i>
@@ -55,7 +56,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                             <img class="doc-img" src="./common/img/icon-image.png">
                             <div class="block doc-info-detail">
                                 <span class="doc-title">${result.fileName}</span> 
-                                <span class="doc-desc">${result.fileSize}${result.fileType}</span>
+                                <span class="doc-desc">${Math.round(result.fileSize / 1024)}KB</span>
                             </div>
                             <div class="block doc-icon-group">
                                 <img class="doc-icon preview" src="./common/img/doc_search.png"> 
@@ -81,11 +82,10 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
             showAddBtn(option);
             $.ajax({
-                url: ctx_ + "document/file/upload",
-                data: formData,
+                url: ctx_ + "work/user/findFileById",
+                data: JSON.stringify(option.value),
+                contentType: 'application/json;charset=UTF-8',
                 type: "post",
-                processData: false,  // 禁止对数据进行序列化
-                contentType: false,  // 不设置请求头的 Content-Type
                 success: function (result) {
                     for (let i = 0; i < result.length; i++) {
                         $(option.id).append(`
@@ -93,10 +93,9 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                             <img class="doc-img" src="./common/img/icon-image.png">
                             <div class="block doc-info-detail">
                                 <span class="doc-title">${result[i].fileName}</span> 
-                                <span class="doc-desc">${result[i].fileSize}${result[i].fileType}</span>
+                                <span class="doc-desc">${Math.round(result[i].fileSize / 1024)}KB</span>
                             </div>
                             <div class="block doc-icon-group">
-                                <img class="doc-icon preview" src="./common/img/doc_search.png"> 
                                 <img class="doc-icon download" src="./common/img/doc_download.png">
                                 <img class="doc-icon delete" src="./common/img/doc_delete.png">
                             </div>
@@ -116,13 +115,13 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         // 在此处执行点击删除图标后的逻辑
         $(option.id).on('click', '.delete', function () {
             let that = $(this);
-            let id = that.parent(".doc-item-bg").data("id");
+            let id = that.parent().parent(".doc-item-bg").data("id");
             $.ajax({
                 url: ctx_ + "document/file/delete",
                 type: "post",
                 data: {fileId: id},
                 success: function (result) {
-                    that.parent(".doc-item-bg").remove();
+                    that.parent().parent(".doc-item-bg").remove();
                     showAddBtn(option);
                     let index = option.value.indexOf(id);
                     if (index !== -1) {
@@ -137,8 +136,10 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         });
 
         // 在此处执行点击放大图标后的逻辑
-        $(option.id).on('click', '.preview', function () {
-
+        $(option.id).on('click', '.download', function () {
+            let that = $(this);
+            let id = that.parent().parent(".doc-item-bg").data("id");
+            window.open(ctx_ + "document/file/download?fileId=" + id)
         });
     }
 
@@ -146,9 +147,9 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     function showAddBtn(option) {
         let count = $(option.id + ' .doc-item-bg').length;
         if (option.num && count >= option.num) {
-            $(option.id).children().last().hide();
+            $(".doc-uploadBtn").hide();
         } else {
-            $(option.id).children().last().show();
+            $(".doc-uploadBtn").show();
         }
     }
 
