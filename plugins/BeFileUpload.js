@@ -59,7 +59,6 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                                 <span class="doc-desc">${Math.round(result.fileSize / 1024)}KB</span>
                             </div>
                             <div class="block doc-icon-group">
-                                <img class="doc-icon preview" src="./common/img/doc_search.png"> 
                                 <img class="doc-icon download" src="./common/img/doc_download.png">
                                 <img class="doc-icon delete" src="./common/img/doc_delete.png">
                             </div>
