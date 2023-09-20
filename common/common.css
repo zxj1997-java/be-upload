@@ -84,7 +84,7 @@
 }
 
 .doc-item-bg {
-    width: 500px;
+    width: 433px;
     height: 60px;
     background: #F9F9F9;
     border-radius: 2px;
@@ -101,19 +101,19 @@
 }
 
 .doc-info-detail {
-    max-width: 300px;
+    width: 240px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 12px;
 }
 
 .doc-icon-group {
-    width: 200px;
+    width: 110px;
     display: flex;
     flex-flow: row;
     justify-content: center;
     align-items: center;
+    z-index: 999;
 }
 
 .doc-icon {
