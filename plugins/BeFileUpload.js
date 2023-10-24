@@ -29,6 +29,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             let file = files[0];
             // 可以将文件对象传递给其他函数进行进一步处理
             processFile(option, file);
+            $(option.id + " input[type=file]").val(""); // 强制清除输入框的值
         });
         // 清除已选中的文件
         $(this).val('');
