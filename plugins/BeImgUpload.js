@@ -4,17 +4,23 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     let layer = layui.layer;
 
     let render = function (option) {
+        if (!option.readonly) {
+            option.readonly = false;
+        }
+
         option.value = option.value ? option.value : [];
         $(option.id).append(`<input type="hidden" class="upload-hidden-input" name="${option.name}"/>`)
         addImg(option);
 
-        $(option.id).append(`
+        if (option.readonly == false) {
+            $(option.id).append(`
             <div class="upload-wapper">
                 <i class="upload-icon"></i>
                 <input type="file" class="upload-input" accept="${option.type ? option.type : 'image/*'}">
             </div>`);
-        if (option.value.length >= option.num) {
-            $(option.id).find(".upload-wapper").hide();
+            if (option.value.length >= option.num) {
+                $(option.id).find(".upload-wapper").hide();
+            }
         }
         appendChange(option);
         clickEvent(option);
@@ -53,7 +59,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                         $(`<div class="image-section" data-id="${result.id}">
                                 <img class="image-show" src="/document/file/download?fileId=${result.id}">
                                 <div class="image-shade"></div>
-                                <i class="delete-icon"></i>
+                               ${option.readonly ? '' : '<i class="delete-icon"></i>'}
                                 <i class="zoom-icon"></i>
                             </div>`).insertBefore(option.id + ' .upload-wapper');
                         option.value.push(result.id);
@@ -76,7 +82,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 <div class="image-section" data-id="${option.value[i]}">
                     <img class="image-show" src="/document/file/download?fileId=${option.value[i]}">
                     <div class="image-shade"></div>
-                    <i class="delete-icon"></i>
+                   ${option.readonly ? '' : '<i class="delete-icon"></i>'}
                     <i class="zoom-icon"></i>
                 </div>`);
             }
