@@ -69,7 +69,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         if (option.value) {
             for (let i = 0; i < option.value.length; i++) {
                 $(option.id).append(`
-                <div class="image-section" data-id="1111">
+                <div class="image-section" data-id="${option.value[i]}">
                     <img class="image-show" src="/document/file/download?fileId=${option.value[i]}">
                     <div class="image-shade"></div>
                     <i class="delete-icon"></i>
