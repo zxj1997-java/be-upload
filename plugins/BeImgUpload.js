@@ -7,11 +7,15 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         option.value = option.value ? option.value : [];
         $(option.id).append(`<input type="hidden" class="upload-hidden-input" name="${option.name}"/>`)
         addImg(option);
+
         $(option.id).append(`
             <div class="upload-wapper">
                 <i class="upload-icon"></i>
                 <input type="file" class="upload-input" accept="${option.type ? option.type : 'image/*'}">
             </div>`);
+        if (option.value.length >= option.num) {
+            $(option.id).find(".upload-wapper").hide();
+        }
         appendChange(option);
         clickEvent(option);
     }
@@ -124,10 +128,10 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     //显示或隐藏添加按钮
     function showAddBtn(option) {
         let count = $(option.id + ' .image-section').length;
-        if (option.num && count >= option.num) {
-            $(option.id).children().last().hide();
+        if (option.num && count < option.num) {
+            $(option.id).find(".upload-wapper").show();
         } else {
-            $(option.id).children().last().show();
+            $(option.id).find(".upload-wapper").hide();
         }
     }
 
