@@ -91,23 +91,14 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         $(option.id).on('click', '.delete-icon', function () {
             let that = $(this);
             let id = that.parent(".image-section").data("id");
-            $.ajax({
-                url: ctx_ + "document/file/delete",
-                type: "post",
-                data: {fileId: id},
-                success: function (result) {
-                    that.parent(".image-section").remove();
-                    showAddBtn(option);
-                    let index = option.value.indexOf(id);
-                    if (index !== -1) {
-                        option.value.splice(index, 1);
-                    }
-                    $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
-                },
-                error: function (xhr, status, error) {
-                    layer.msg("删除失败", {icon: 2})
-                }
-            });
+
+            that.parent(".image-section").remove();
+            showAddBtn(option);
+            let index = option.value.indexOf(id);
+            if (index !== -1) {
+                option.value.splice(index, 1);
+            }
+            $(option.id + " input[name='" + option.name + "']").val(option.value.join(','));
         });
 
         // 在此处执行点击放大图标后的逻辑
