@@ -81,7 +81,6 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 </div>`);
             }
             $(option.id + " input[name='" + option.name + "']").val(option.value.join(','))
-            showAddBtn(option);
         }
     }
 
