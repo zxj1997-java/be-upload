@@ -31,7 +31,7 @@
             size: 10, //10M, 大小限制
             readonly: false, //非只读
             type: ".png,.jpg,.jpeg",
-            value: ['fileId1', 'fileId2']  //图片初始化，是图片id数组
+            value: ['fileId1', 'fileId2']   //图片初始化，是图片id可以是数组,也可以是以,拼接的字符串
         });
     })
 </script>
