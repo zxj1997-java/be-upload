@@ -20,6 +20,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     BeFileUpload.prototype.init = function () {
         $(this.option.id).css("display", "grid");
         $(this.option.id).append(`<input type="hidden" class="upload-hidden-input" name="${this.option.name}"/>`);
+        this.addFiles();
 
         if (!this.option.readonly && this.option.value.length < this.option.num) {
             $(this.option.id).append(`
@@ -31,7 +32,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 </div>
             </div>`);
         }
-        this.addFiles();
+
         this.appendChange();
         this.clickEvent();
     };
