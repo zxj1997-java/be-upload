@@ -3,6 +3,9 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     let $ = layui.jquery;
     let layer = layui.layer;
 
+    let uploadUrl=ctx_ + "document/file/upload";
+    let downLoadUrl=ctx_ + "document/file/download?fileId=";
+
     function BeImgUpload(option) {
         this.option = option;
         //数据预处理
@@ -55,14 +58,14 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 let formData = new FormData();
                 formData.append("file", file);
                 $.ajax({
-                    url: ctx_ + "document/file/upload",
+                    url: uploadUrl,
                     data: formData,
                     type: "post",
                     processData: false,
                     contentType: false,
                     success: function (result) {
                         $(`<div class="image-section" data-id="${result.id}">
-                                <img class="image-show" src="/document/file/download?fileId=${result.id}">
+                                <img class="image-show" src="${downLoadUrl}${result.id}">
                                 <div class="image-shade"></div>
                                ${that.option.readonly ? '' : '<i class="delete-icon"></i>'}
                                 <i class="zoom-icon"></i>
@@ -85,7 +88,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             for (let i = 0; i < this.option.value.length; ++i) {
                 $(this.option.id).append(`
                 <div class="image-section" data-id="${this.option.value[i]}">
-                    <img class="image-show" src="/document/file/download?fileId=${this.option.value[i]}">
+                    <img class="image-show" src="${downLoadUrl}${this.option.value[i]}">
                     <div class="image-shade"></div>
                    ${this.option.readonly ? '' : '<i class="delete-icon"></i>'}
                     <i class="zoom-icon"></i>
