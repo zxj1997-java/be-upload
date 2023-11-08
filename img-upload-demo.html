@@ -17,14 +17,15 @@
     layui.use(['BeImgUpload'], function () {
         let beImgUpload = layui.BeImgUpload;
 
+        //图片上传，会把图片的id通过逗号拼接成字符串，保存时通过name属性发送
         beImgUpload.render({
-            id: "#fileupload",
-            name: "img",
-            num: 3,
-            size: 0.5, //10M,
-            readonly: false,
+            id: "#imgupload",
+            name: "imgIds",
+            num: 5,   //图片数量限制
+            size: 10, //10M, 大小限制
+            readonly: false, //非只读
             type: ".png,.jpg,.jpeg",
-            value: ["20230824163537.png", "20230824162700.png"]
+            value: ['fileId1', 'fileId2']  //图片初始化，是图片id数组
         });
     })
 </script>
