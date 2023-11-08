@@ -4,12 +4,22 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     let layer = layui.layer;
 
     function BeImgUpload(option) {
-        if (!option.readonly) {
+        this.option = option;
+        //数据预处理
+        if (!this.option.readonly) {
             option.readonly = false;
         }
+        if (typeof this.option.value === 'string') {
+            return this.option.value.split(',');
+        } else {
+            this.option.value = this.option.value ? this.option.value : [];
+        }
 
-        this.option = option;
-        this.option.value = this.option.value ? this.option.value : [];
+        this.init();
+    }
+
+
+    BeImgUpload.prototype.init = function () {
         $(this.option.id).append(`<input type="hidden" class="upload-hidden-input" name="${this.option.name}"/>`);
         this.addImg();
 

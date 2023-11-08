@@ -5,7 +5,15 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
 
     function BeFileUpload(option) {
         this.option = option;
-        this.value = option.value ? option.value : [];
+        //数据预处理
+        if (!this.option.readonly) {
+            option.readonly = false;
+        }
+        if (typeof this.option.value === 'string') {
+            return this.option.value.split(',');
+        } else {
+            this.option.value = this.option.value ? this.option.value : [];
+        }
         this.init();
     }
 
