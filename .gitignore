@@ -11,7 +11,38 @@ target/
 
 ######################################################################
 # IDE
+*.iml
+*.ipr
+*.iws
+*.launch
+*.md5
+*.orig
+*.swp
+*.tmp
+*.zip
 
+# Cover
+.coverage
+
+# Logs
+*.log
+
+# Backup
+*.bak
+*.old
+*.orig
+
+# Dependency
+.classpath
+.project
+.settings
+
+# Global
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 ### STS ###
 .apt_generated
 .classpath
