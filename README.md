@@ -1,3 +1,5 @@
+### 示例地址
+https://zhang_xing_ju.gitee.io/be-upload/index.html
 ### 使用说明
 1. 修改文件相关的后台接口地址
 [common.js](layui_exts%2Fbe-upload%2Fcommon%2Fcommon.js)
