@@ -11,14 +11,14 @@
     <title>文件上传示例</title>
     <!-- 引入 layui.css -->
     <link href="./layui/css/layui.css" rel="stylesheet">
-    <link href="plugins/common/common.css" rel="stylesheet">
+    <link href="layui_exts/Beupload/common/common.css" rel="stylesheet">
 </head>
 <body>
 <div id="fileupload"></div>
 </body>
 <!-- 引入 layui.js -->
 <script src="./layui/layui.js"></script>
-<script src="plugins/common/common.js"></script>
+<script src="layui_exts/Beupload/common/common.js"></script>
 <script>
     layui.use(['BeImgUpload'], function () {
         let beImgUpload = layui.BeImgUpload;

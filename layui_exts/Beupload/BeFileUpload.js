@@ -71,8 +71,8 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                                     <span class="doc-desc">${Math.round(result.fileSize / 1024)}KB</span>
                                 </div>
                                 <div class="block doc-icon-group">
-                                    <img class="doc-icon download" src="./common/img/doc_download.png">
-                                    <img class="doc-icon delete" src="./common/img/doc_delete.png">
+                                    <img class="doc-icon download" src="commonmg/doc_download.png">
+                                    <img class="doc-icon delete" src="commonmg/doc_delete.png">
                                 </div>
                             </div>`
                         );
@@ -102,14 +102,14 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                     for (let i = 0; i < result.length; i++) {
                         $(that.option.id).append(`
                             <div data-id="${result[i].id}" class="doc-item-bg">
-                                <img class="doc-img" src="./common/img/icon-image.png">
+                                <img class="doc-img" src="commonmg/icon-image.png">
                                 <div class="block doc-info-detail">
                                     <span class="doc-title">${result[i].fileName}</span> 
                                     <span class="doc-desc">${Math.round(result[i].fileSize / 1024)}KB</span>
                                 </div>
                                 <div class="block doc-icon-group">
-                                    <img class="doc-icon download" src="./common/img/doc_download.png">
-                                    <img class="doc-icon delete" src="./common/img/doc_delete.png">
+                                    <img class="doc-icon download" src="commonmg/doc_download.png">
+                                    <img class="doc-icon delete" src="commonmg/doc_delete.png">
                                 </div>
                             </div>`
                         );
