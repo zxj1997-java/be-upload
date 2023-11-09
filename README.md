@@ -14,9 +14,10 @@ let global = {
 }
 ```
 2.引入相关的css js
+
 ```js
-<link href="layui_exts/be-upload/common/common.css" rel="stylesheet">
-<script src="layui_exts/be-upload/common/common.js"></script>
+<link href="be-upload/common/common.css" rel="stylesheet">
+    <script src="be-upload/common/common.js"></script>
 ```
 
 3. 像layui的其他组件一样使用即可
@@ -50,14 +51,14 @@ layui.use(['BeImgUpload'], function () {
     <title>文件上传示例</title>
     <!-- 引入 layui.css -->
     <link href="./layui/css/layui.css" rel="stylesheet">
-    <link href="layui_exts/be-upload/common/common.css" rel="stylesheet">
+    <link href="be-upload/common/common.css" rel="stylesheet">
 </head>
 <body>
 <div id="fileupload"></div>
 </body>
 <!-- 引入 layui.js -->
 <script src="./layui/layui.js"></script>
-<script src="layui_exts/be-upload/common/common.js"></script>
+<script src="be-upload/common/common.js"></script>
 <script>
     layui.use(['BeImgUpload'], function () {
         let beImgUpload = layui.BeImgUpload;
