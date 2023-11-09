@@ -3,10 +3,6 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     let $ = layui.jquery;
     let layer = layui.layer;
 
-    let uploadUrl = ctx_ + "document/file/upload";
-    let downLoadUrl = ctx_ + "document/file/download?fileId=";
-    let findFileByIdUrl = ctx_ + "work/user/findFileById";
-
     function BeFileUpload(option) {
         this.option = option;
         //数据预处理
@@ -61,7 +57,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 let formData = new FormData();
                 formData.append("file", file);
                 $.ajax({
-                    url: uploadUrl,
+                    url: global.uploadUrl,
                     data: formData,
                     type: "post",
                     processData: false,
@@ -98,7 +94,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             $(that.option.id + " input[name='" + that.option.name + "']").val(that.value.join(','));
             that.showAddBtn();
             $.ajax({
-                url: findFileByIdUrl,
+                url: global.findFileByIdUrl,
                 data: JSON.stringify(that.value),
                 contentType: 'application/json;charset=UTF-8',
                 type: "post",
@@ -145,7 +141,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         $(this.option.id).on('click', '.download', function () {
             let that = $(this);
             let id = that.parent().parent(".doc-item-bg").data("id");
-            window.open(downLoadUrl + id);
+            window.open(global.downLoadUrl + id);
         });
     };
 
