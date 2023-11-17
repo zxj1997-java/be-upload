@@ -1,6 +1,30 @@
 ### 示例地址
 https://zhang_xing_ju.gitee.io/be-upload/index.html
 ### 使用说明
+```java
+//查询文件详情
+@PostMapping("/findFileById")
+@ResponseBody
+public ResponseEntity findFileById(@RequestBody String[] ids) {
+    List<File> files = fileService.queryForList(ids);
+    return ResponseEntity.ok(files);
+}
+
+//文件上传
+@PostMapping({"/upload"})
+public ResponseEntity<File> upload(@RequestParam MultipartFile file) {
+    return ResponseEntity.ok(ileService.upload(file));
+}
+
+
+//文件下载
+@GetMapping({"/download"})
+public ResponseEntity<Void> download(String fileId) throws Exception {
+ 
+}
+```
+
+
 1. 修改文件相关的后台接口地址
 [common.js](layui_exts%2Fbe-upload%2Fcommon%2Fcommon.js)
 ```js
@@ -78,5 +102,6 @@ layui.use(['BeImgUpload'], function () {
 </html>
 ```
 ### 效果图
-![edit.png](img%2Fedit.png)
-![detail.png](img%2Fdetail.png)
+![img.png](img%2Fimg.png)
+![img_1.png](img%2Fimg_1.png)
+![img_2.png](img%2Fimg_2.png)

@@ -1,11 +1,12 @@
 let global = {
     //上传文件地址
-    uploadUrl: "/file/upload",
+    uploadUrl: "/document/file/upload",
     //下载文件地址
-    downLoadUrl: "/file/download?id=",
+    downLoadUrl: "/document/file/download?fileId=",
     //查询文件的详情信息
-    findFileByIdUrl: "/file/findById"
+    findFileByIdUrl: "/assessment/findFileById"
 }
+
 
 // 假设 firstMod 模块文件所在路径在： /js/layui_exts/firstMod.js
 layui.config({

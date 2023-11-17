@@ -71,13 +71,13 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                                     <span class="doc-desc">${Math.round(result.fileSize / 1024)}KB</span>
                                 </div>
                                 <div class="block doc-icon-group">
-                                    <img class="doc-icon download" src="commonmg/doc_download.png">
-                                    <img class="doc-icon delete" src="commonmg/doc_delete.png">
+                                    <img class="doc-icon download" src="/be-upload/common/img/doc_download.png">
+                                    <img class="doc-icon delete" src="/be-upload/common/img/doc_delete.png">
                                 </div>
                             </div>`
                         );
-                        that.value.push(result.id);
-                        $(that.option.id + " input[name='" + that.option.name + "']").val(that.value.join(','));
+                        that.option.value.push(result.id);
+                        $(that.option.id + " input[name='" + that.option.name + "']").val(that.option.value.join(','));
                         that.showAddBtn();
                     },
                     error: function (xhr, status, error) {
@@ -90,26 +90,26 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
 
     BeFileUpload.prototype.addFiles = function () {
         let that = this;
-        if (that.value) {
-            $(that.option.id + " input[name='" + that.option.name + "']").val(that.value.join(','));
+        if (that.option.value) {
+            $(that.option.id + " input[name='" + that.option.name + "']").val(that.option.value.join(','));
             that.showAddBtn();
             $.ajax({
                 url: global.findFileByIdUrl,
-                data: JSON.stringify(that.value),
+                data: JSON.stringify(that.option.value),
                 contentType: 'application/json;charset=UTF-8',
                 type: "post",
                 success: function (result) {
                     for (let i = 0; i < result.length; i++) {
                         $(that.option.id).append(`
                             <div data-id="${result[i].id}" class="doc-item-bg">
-                                <img class="doc-img" src="commonmg/icon-image.png">
+                                <img class="doc-img" src="/be-upload/common/img/icon-image.png">
                                 <div class="block doc-info-detail">
                                     <span class="doc-title">${result[i].fileName}</span> 
                                     <span class="doc-desc">${Math.round(result[i].fileSize / 1024)}KB</span>
                                 </div>
                                 <div class="block doc-icon-group">
-                                    <img class="doc-icon download" src="commonmg/doc_download.png">
-                                    <img class="doc-icon delete" src="commonmg/doc_delete.png">
+                                    <img class="doc-icon download" src="/be-upload/common/img/doc_download.png">
+                                    <img class="doc-icon delete" src="/be-upload/common/img/doc_delete.png">
                                 </div>
                             </div>`
                         );
@@ -126,22 +126,26 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         let that = this;
         // Execute logic when clicking on delete icon
         $(this.option.id).on('click', '.delete', function () {
-            let that = $(this);
-            let id = that.parent().parent(".doc-item-bg").data("id");
-            that.parent().parent(".doc-item-bg").remove();
+            debugger
+            let id = $(this).parent().parent(".doc-item-bg").data("id");
+            $(this).parent().parent(".doc-item-bg").remove();
             that.showAddBtn();
-            let index = that.value.indexOf(id);
+            let index = that.option.value.indexOf(id);
             if (index !== -1) {
-                that.value.splice(index, 1);
+                that.option.value.splice(index, 1);
             }
-            $(that.option.id + " input[name='" + that.option.name + "']").val(that.value.join(','));
+            $(that.option.id + " input[name='" + that.option.name + "']").val(that.option.value.join(','));
         });
 
         // 单击下载图标时执行逻辑
         $(this.option.id).on('click', '.download', function () {
-            let that = $(this);
-            let id = that.parent().parent(".doc-item-bg").data("id");
-            window.open(global.downLoadUrl + id);
+            let id = $(this).parent().parent(".doc-item-bg").data("id");
+            let link = document.createElement('a');
+            link.href = global.downLoadUrl + id;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         });
     };
 
@@ -165,19 +169,19 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         const textExtensions = ['txt', 'csv'];
 
         if (documentExtensions.includes(extension)) {
-            return './common/img/icon-doc.png';
+            return '/be-upload/common/img/icon-doc.png';
         } else if (spreadsheetExtensions.includes(extension)) {
-            return './common/img/icon-xsl.png';
+            return '/be-upload/common/img/icon-xsl.png';
         } else if (imageExtensions.includes(extension)) {
-            return './common/img/icon-image.png';
+            return '/be-upload/common/img/icon-image.png';
         } else if (pptExtensions.includes(extension)) {
-            return './common/img/icon-ppt.png';
+            return '/be-upload/common/img/icon-ppt.png';
         } else if (archiveExtensions.includes(extension)) {
-            return './common/img/icon-zip.png';
+            return '/be-upload/common/img/icon-zip.png';
         } else if (textExtensions.includes(extension)) {
-            return './common/img/icon-txt.png';
+            return '/be-upload/common/img/icon-txt.png';
         } else {
-            return './common/img/icon-file.png';
+            return '/be-upload/common/img/icon-file.png';
         }
     };
 

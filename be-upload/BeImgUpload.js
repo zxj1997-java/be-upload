@@ -110,13 +110,17 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
 
         $(this.option.id).on('click', '.zoom-icon', function () {
             let img = $(this).parent(".image-section").children("img")[0];
-            layer.open({
-                type: 1,
-                area: ["auto", "auto"],
-                title: false,
-                closeBtn: 1,
-                shadeClose: true,
-                content: "<img src='" + img.src + "' style='width: auto !important;max-height: 600px !important'/>"
+            layer.photos({
+                type:"iframe",
+                photos: {
+                    "title": "Photos Demo",
+                    "start": 0,
+                    "data": [
+                        {
+                            "src": img.src,
+                        }
+                    ]
+                },
             });
         });
     }
