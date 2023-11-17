@@ -10,7 +10,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
             option.readonly = false;
         }
         if (typeof this.option.value === 'string') {
-            return this.option.value.split(',');
+            this.option.value = this.option.value.split(',');
         } else {
             this.option.value = this.option.value ? this.option.value : [];
         }
