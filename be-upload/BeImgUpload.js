@@ -109,17 +109,20 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         });
 
         $(this.option.id).on('click', '.zoom-icon', function () {
-            let img = $(this).parent(".image-section").children("img")[0];
+            let images = []; // 存储所有图片的数组
+            let currentIndex = $(this).closest('.image-section').index(); // 当前点击的图片在父容器中的索引
+
+            // 遍历所有 .image-section 元素
+            $(that.option.id + ' .image-section').each(function () {
+                let src = $(this).find('.image-show').attr('src');
+                images.push({src: src});
+            });
+
             layer.photos({
-                type:"iframe",
                 photos: {
-                    "title": "Photos Demo",
-                    "start": 0,
-                    "data": [
-                        {
-                            "src": img.src,
-                        }
-                    ]
+                    "title": "图片",
+                    "start": currentIndex - 1,
+                    "data": images
                 },
             });
         });
