@@ -20,14 +20,14 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
 
 
     BeImgUpload.prototype.init = function () {
-        $(this.option.id).append(`<input type="hidden" class="upload-hidden-input" name="${this.option.name}"/>`);
+        $(this.option.id).append(`<input type="hidden" multiple class="upload-hidden-input" name="${this.option.name}"/>`);
         this.addImg();
 
         if (!this.option.readonly && this.option.value.length < this.option.num) {
             $(this.option.id).append(`
                 <div class="upload-wapper">
                     <i class="upload-icon"></i>
-                    <input type="file" class="upload-input" accept="${this.option.type ? this.option.type : 'image/*'}">
+                    <input type="file" class="upload-input" multiple accept="${this.option.type ? this.option.type : 'image/*'}">
                 </div>`);
         }
 
