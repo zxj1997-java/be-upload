@@ -41,8 +41,9 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         let that = this;
         $(this.option.id + " input[type=file]").on('change', function (event) {
             let files = event.target.files;
-            let file = files[0];
-            that.processFile(file);
+            for(let file of files){
+                that.processFile(file);
+            }
             $(that.option.id + " input[type=file]").val("");
         });
         $(this).val('');
