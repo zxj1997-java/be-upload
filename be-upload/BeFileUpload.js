@@ -19,7 +19,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
 
     BeFileUpload.prototype.init = function () {
         $(this.option.id).css("display", "grid");
-        $(this.option.id).append(`<input type="hidden" class="upload-hidden-input" name="${this.option.name}"/>`);
+        $(this.option.id).append(`<input type="hidden" multiple class="upload-hidden-input" name="${this.option.name}"/>`);
         this.addFiles();
 
         if (!this.option.readonly && this.option.value.length < this.option.num) {
@@ -28,7 +28,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 <span class="doc-tips block">≤10M,支持 doc, docx, xls, xsx</span>
                 <div class="doc-uploadBtn">
                     <i style="font-style: normal;">上传</i>
-                    <input class="upload-input" type="file" accept="${this.option.type ? this.option.type : 'image/*'}"/>
+                    <input class="upload-input" multiple type="file" accept="${this.option.type ? this.option.type : 'image/*'}"/>
                 </div>
             </div>`);
         }
