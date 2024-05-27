@@ -37,7 +37,11 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
 
     BeImgUpload.prototype.appendChange = function () {
         let that = this;
+       
         $(this.option.id + " input[type=file]").on('change', function (event) {
+            if(files.length> this.option.num){
+                layer.msg("上传文件数量不得超过" + this.option.num + "个", {icon: 0});
+            }
             let files = event.target.files;
             for(let file of files){
                 that.processFile(file);
