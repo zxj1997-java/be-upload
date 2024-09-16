@@ -2,8 +2,11 @@
 layui.define(['jquery', 'layer', 'form'], function (exports) {
     let $ = layui.jquery;
     let layer = layui.layer;
+    let scriptUrl = document.currentScript.src;
 
     function BeFileUpload(option) {
+        let directoryPath = scriptUrl.substring(0, scriptUrl.lastIndexOf('/') + 1);
+        layui.link(directoryPath + "common/common.css")
         this.option = option;
         //数据预处理
         if (!this.option.readonly) {
@@ -41,10 +44,10 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         let that = this;
         $(this.option.id + " input[type=file]").on('change', function (event) {
             let files = event.target.files;
-            if(files.length> this.option.num){
+            if (files.length > this.option.num) {
                 layer.msg("上传文件数量不得超过" + this.option.num + "个", {icon: 0});
             }
-            for(let file of files){
+            for (let file of files) {
                 that.processFile(file);
             }
             $(that.option.id + " input[type=file]").val("");

@@ -2,8 +2,13 @@
 layui.define(['jquery', 'layer', 'form'], function (exports) {
     let $ = layui.jquery;
     let layer = layui.layer;
+    // 获取当前加载的 JavaScript 文件的路径
+    let scriptUrl = document.currentScript.src;
 
     function BeImgUpload(option) {
+        // 提取路径中的目录部分
+        let directoryPath = scriptUrl.substring(0, scriptUrl.lastIndexOf('/') + 1);
+        layui.link(directoryPath + "common/common.css")
         this.option = option;
         //数据预处理
         if (!this.option.readonly) {
