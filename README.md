@@ -41,7 +41,7 @@ let global = {
 2.引入相关的css js
 
 ```js
-/*最新的版本无序手动引入css*/
+/*最新的版本无需手动引入css*/
 <link href="be-upload/common/common.css" rel="stylesheet">
 <script src="be-upload/common/common.js"></script>
 ```
@@ -77,7 +77,7 @@ layui.use(['BeImgUpload'], function () {
     <title>文件上传示例</title>
     <!-- 引入 layui.css -->
     <link href="./layui/css/layui.css" rel="stylesheet">
-    <!--最新的版本无序手动引入css-->
+    <!--最新的版本无需手动引入css-->
     <link href="be-upload/common/common.css" rel="stylesheet">
 </head>
 <body>
