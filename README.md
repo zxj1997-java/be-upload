@@ -1,30 +1,46 @@
- :airplane: 2024年5月27日16:27:31 还活着
+ :airplane: 2024年9月30日09:30:33 还活着
+ 
 ### 示例地址
 https://zhang_xing_ju.gitee.io/be-upload/index.html
+
 ### 使用说明
 ```java
 //查询文件详情
 @PostMapping("/findFileById")
 @ResponseBody
-public ResponseEntity findFileById(@RequestBody String[] ids) {
+public ResponseData findFileById(@RequestBody String[] ids) {
     List<File> files = fileService.queryForList(ids);
     return ResponseEntity.ok(files);
 }
 
 //文件上传
 @PostMapping({"/upload"})
-public ResponseEntity<File> upload(@RequestParam MultipartFile file) {
+public ResponseData<File> upload(@RequestParam MultipartFile file) {
     return ResponseEntity.ok(ileService.upload(file));
 }
 
 
 //文件下载
 @GetMapping({"/download"})
-public ResponseEntity<Void> download(String fileId) throws Exception {
+public ResponseData<Void> download(String fileId) throws Exception {
  
 }
 ```
 
+接口返回格式
+```json
+{
+  "code":200,
+  "data":{
+    "fileName":"微信图片_20240910134204.png",
+    "fileSize":43167,
+    "fileType":"image/png",
+    "id":"66f9fee16fbb4c54258d90de"
+  },
+  "message":null,
+  "success":true
+}
+```
 
 1. 修改文件相关的后台接口地址
 [common.js](layui_exts%2Fbe-upload%2Fcommon%2Fcommon.js)
@@ -106,5 +122,5 @@ layui.use(['BeImgUpload'], function () {
 ```
 ### 效果图
 ![img.png](img%2Fimg.png)
-![img_1.png](img%2Fimg_1.png)
 ![img_2.png](img%2Fimg_2.png)
+![img_1.png](img%2Fimg_1.png)

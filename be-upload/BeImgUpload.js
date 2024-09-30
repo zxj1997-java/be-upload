@@ -42,13 +42,13 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
 
     BeImgUpload.prototype.appendChange = function () {
         let that = this;
-       
+
         $(this.option.id + " input[type=file]").on('change', function (event) {
-            if(files.length> this.option.num){
+            let files = event.target.files;
+            if (files.length > that.option.num) {
                 layer.msg("上传文件数量不得超过" + this.option.num + "个", {icon: 0});
             }
-            let files = event.target.files;
-            for(let file of files){
+            for (let file of files) {
                 that.processFile(file);
             }
             $(that.option.id + " input[type=file]").val("");
@@ -71,13 +71,13 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                     processData: false,
                     contentType: false,
                     success: function (result) {
-                        $(`<div class="image-section" data-id="${result.id}">
-                                <img class="image-show" src="${global.downLoadUrl}${result.id}">
+                        $(`<div class="image-section" data-id="${result.data.id}">
+                                <img class="image-show" src="${global.downLoadUrl}${result.data.id}">
                                 <div class="image-shade"></div>
                                ${that.option.readonly ? '' : '<i class="delete-icon"></i>'}
                                 <i class="zoom-icon"></i>
                             </div>`).insertBefore(that.option.id + ' .upload-wapper');
-                        that.option.value.push(result.id);
+                        that.option.value.push(result.data.id);
                         $(that.option.id + " input[name='" + that.option.name + "']").val(that.option.value.join(','));
                         that.showAddBtn();
                     },
@@ -93,7 +93,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         let that = this;
         if (this.option.value) {
             for (let i = 0; i < this.option.value.length; ++i) {
-                $(this.option.id).append(`
+                $(that.option.id).append(`
                 <div class="image-section" data-id="${this.option.value[i]}">
                     <img class="image-show" src="${global.downLoadUrl}${this.option.value[i]}">
                     <div class="image-shade"></div>
@@ -128,7 +128,8 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 images.push({src: src});
             });
 
-            layer.photos({
+            let topWin = that.findTopWindow(window);
+            let i = topWin.layer.photos({
                 photos: {
                     "title": "图片",
                     "start": currentIndex - 1,
@@ -145,6 +146,14 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         } else {
             $(this.option.id).find(".upload-wapper").hide();
         }
+    }
+
+
+    BeImgUpload.prototype.findTopWindow = function (currentWindow) {
+        while (currentWindow !== currentWindow.parent) {
+            currentWindow = currentWindow.parent;
+        }
+        return currentWindow;
     }
 
     exports('BeImgUpload', {

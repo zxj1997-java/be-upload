@@ -1,10 +1,10 @@
 let global = {
     //上传文件地址
-    uploadUrl: "/document/file/upload",
+    uploadUrl: "/file/upload",
     //下载文件地址
-    downLoadUrl: "/document/file/download?fileId=",
+    downLoadUrl: "/file/download?id=",
     //查询文件的详情信息
-    findFileByIdUrl: "/assessment/findFileById"
+    findFileByIdUrl: "/file/findById"
 }
 
 

@@ -44,7 +44,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
         let that = this;
         $(this.option.id + " input[type=file]").on('change', function (event) {
             let files = event.target.files;
-            if (files.length > this.option.num) {
+            if (files.length > that.option.num) {
                 layer.msg("上传文件数量不得超过" + this.option.num + "个", {icon: 0});
             }
             for (let file of files) {
@@ -106,13 +106,13 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
                 contentType: 'application/json;charset=UTF-8',
                 type: "post",
                 success: function (result) {
-                    for (let i = 0; i < result.length; i++) {
+                    for (let i = 0; i < result.data.length; i++) {
                         $(that.option.id).append(`
-                            <div data-id="${result[i].id}" class="doc-item-bg">
+                            <div data-id="${result.data[i].id}" class="doc-item-bg">
                                 <img class="doc-img" src="/be-upload/common/img/icon-image.png">
                                 <div class="block doc-info-detail">
-                                    <span class="doc-title">${result[i].fileName}</span> 
-                                    <span class="doc-desc">${Math.round(result[i].fileSize / 1024)}KB</span>
+                                    <span class="doc-title">${result.data[i].fileName}</span> 
+                                    <span class="doc-desc">${Math.round(result.data[i].fileSize / 1024)}KB</span>
                                 </div>
                                 <div class="block doc-icon-group">
                                     <img class="doc-icon download" src="/be-upload/common/img/doc_download.png">
@@ -132,7 +132,7 @@ layui.define(['jquery', 'layer', 'form'], function (exports) {
     BeFileUpload.prototype.clickEvent = function () {
         let that = this;
         // Execute logic when clicking on delete icon
-        $(this.option.id).on('click', '.delete', function () {
+        $(that.option.id).on('click', '.delete', function () {
             debugger
             let id = $(this).parent().parent(".doc-item-bg").data("id");
             $(this).parent().parent(".doc-item-bg").remove();
